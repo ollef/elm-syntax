@@ -303,6 +303,29 @@ bar = (x + 1) * (2 * y)
     )
 
 
+postProcessBuiltinInfixOperators : ( String, String, File )
+postProcessBuiltinInfixOperators =
+    ( "postProcessBuiltinInfixOperators"
+    , """
+module Bar exposing (..)
+
+bar = x + 1 * 2
+"""
+    , { moduleDefinition =
+            Node { start = { row = 1, column = 1 }, end = { row = 1, column = 25 } } <|
+                NormalModule
+                    { moduleName = Node { end = { column = 11, row = 1 }, start = { column = 8, row = 1 } } [ "Bar" ]
+                    , exposingList = Node { end = { column = 25, row = 1 }, start = { column = 12, row = 1 } } <| All { start = { row = 1, column = 22 }, end = { row = 1, column = 24 } }
+                    }
+      , imports = []
+      , declarations =
+            [-- TODO fill this in
+            ]
+      , comments = []
+      }
+    )
+
+
 suite : Test
 suite =
     describe "Elm.Processing"
@@ -319,6 +342,7 @@ suite =
             , functionWithSingleLineCommentAsDoc
             , functionWithMultiLineCommentAsDoc
             , postProcessInfixOperators
+            , postProcessBuiltinInfixOperators
             , typeAliasWithDocumentation
             , typeWithDocumentation
             ]

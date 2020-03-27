@@ -90,6 +90,7 @@ tableForFile : RawFile -> ProcessContext -> OperatorTable
 tableForFile rawFile (ProcessContext moduleIndex) =
     List.concatMap (\a -> buildSingle a moduleIndex) (DefaultImports.defaults ++ RawFile.imports rawFile)
         |> Dict.fromList
+        |> Dict.union DefaultImports.operatorTable
 
 
 buildSingle : Import -> ModuleIndexInner -> List ( String, Infix )
